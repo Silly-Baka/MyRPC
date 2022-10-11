@@ -1,8 +1,9 @@
-package myRPC.server;
+package myRPC;
 
 import myRPC.annotation.AutoScanService;
 import myRPC.registry.impl.DefaultServiceProvider;
 import myRPC.registry.impl.NacosServiceRegistry;
+import myRPC.server.RpcServer;
 import myRPC.service.HelloService;
 import myRPC.service.impl.HelloServiceImpl;
 

@@ -1,5 +1,6 @@
-package myRPC.client;
+package myRPC;
 
+import myRPC.client.RpcClientProxyFactory;
 import myRPC.service.HelloService;
 
 /**
