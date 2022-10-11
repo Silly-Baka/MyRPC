@@ -1,5 +1,3 @@
-# MyRPC
-MyRPC是一个轻量型的手写RPC框架，网络传输基于Netty实现，注册中心使用了Nacos，并且实现了多种序列化方式和负载均衡算法（其实只有参考dubbo的RandomLoadBalance实现的权重随机算法）
 # 架构
 
 > 这幅架构图参考的是JavaGuide哥的手写rpc框架，我这里服务端还没有实现线程池
@@ -136,24 +134,36 @@ public class testRpcClient {
 
 serilizer.type  ———— 用于配置序列化方法（Java、Json、Kryo 三种值）
 
-oadbalance.type ———— 用于配置负载均衡算法 （只有权重随机算法：myRPC.loadbalance.impl.RandomLoadBalance ，日后会增加映射，减少配置长度）
+oadbalance.type ———— 用于配置负载均衡算法 （只有权重随机算法：myRPC.loadbalance.RandomLoadBalance ，日后会增加映射，减少配置长度）
 
 例子：
 
 ```properties
 serializer.type=Kryo
-loadbalance.type=myRPC.loadbalance.impl.RandomLoadBalance
+loadbalance.type=random
+
+# SPI机制配置实现类
+serviceProvider.impl=default
+serviceRegistry.impl=nacos
 ```
+
+
 
 # 有待改正和增加的地方
 
 - [ ] @Service注解填写服务名存在bug，服务端注册服务若是使用别名进行注册，**那么客户端要如何知道这个别名（原因在于注册中心只能通过服务名来获取服务信息）**然后通过别名从注册中心中获取服务地址等信息。**现在的问题就是：客户端要如何知道？**已有的解决方案：①通过数据库来获得（效率太低，并且数据量少，不至于使用） ②使用Netty进行网络通信获取，但要跟哪个服务端进行通信呢？现在连服务端地址都不知道  ③使用中间件，例如消息队列、Redis等进行缓存（效率较高）④有一种设想：能否使用注册中心来存放别名映射等信息呢
 
-- [ ] Netty服务端增加线程池，提高异步执行请求的效率（还没搞明白，Netty本身不是多线程的吗，还需学习）
+- [ ] Netty服务端增加线程池（专门执行服务方法），提高异步执行请求的效率，**提高服务端处理请求的吞吐量**
+
+  **`（Netty虽然使用了线程池 但这个线程池是专门用来处理通信的，而不是用来处理服务方法的 这样会占用用于通信的线程 吞吐量会下降，所以每一个服务端都需要一个服务线程池 用于异步处理服务，提高整体的请求吞吐量）`**
+
 - [ ] 增加Netty心跳机制，避免服务端与客户端之间的连接断掉
+
 - [ ] 压缩请求信息的字节，可以使用 javaassist或者gzip ？
-- [ ] 使用SPI机制
+
+- [x] 使用**SPI机制**
+
 - [ ] 集成Spring
 
-
+- [x] 使用MQ来解决**请求积压**的问题？ ---->  请求积压：当远程调用请求发送的很频繁  而服务端来不及处理 这时候要考虑服务端的架构  **`（ 请求积压不能用MQ来解决 只能水平拓展服务端集群，使用多线程来提高服务端的处理速度，从而提高请求的吞吐量）` **
 
