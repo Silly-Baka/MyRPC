@@ -1,5 +1,7 @@
 package myRPC.registry;
 
+import myRPC.extension.SPI;
+
 import java.util.Set;
 
 /**
@@ -7,6 +9,7 @@ import java.util.Set;
  *
  *  本地注册表，用于服务提供者注册服务
  */
+@SPI
 public interface ServiceProvider {
     /**
      * 添加服务

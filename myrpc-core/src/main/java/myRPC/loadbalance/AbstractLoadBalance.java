@@ -1,6 +1,7 @@
 package myRPC.loadbalance;
 
 import com.alibaba.nacos.api.naming.pojo.Instance;
+import myRPC.loadbalance.LoadBalance;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  *
  * Description：负载均衡器的抽象类，用于实现负载均衡算法
  **/
-public abstract class AbstractLoadBalance implements LoadBalance{
+public abstract class AbstractLoadBalance implements LoadBalance {
     @Override
     public Instance selectServiceInstance(List<Instance> instances) {
         if(instances == null || instances.size() == 0){

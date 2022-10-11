@@ -1,6 +1,7 @@
 package myRPC.loadbalance;
 
 import com.alibaba.nacos.api.naming.pojo.Instance;
+import myRPC.extension.SPI;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
  *
  * Description：负载均衡器底层接口
  **/
+@SPI
 public interface LoadBalance {
     /**
      * 采用负载均衡算法从服务列表中选择一个服务实例

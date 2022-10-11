@@ -7,6 +7,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.timeout.IdleStateHandler;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import myRPC.handler.RpcResponseHandler;
@@ -15,6 +16,7 @@ import myRPC.protocol.MessageCodec;
 import java.net.InetSocketAddress;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Date: 2022/7/7
@@ -78,6 +80,9 @@ public class RpcClient {
                 ch.pipeline().addLast(new LoggingHandler());
                 ch.pipeline().addLast(messageCodec);
                 ch.pipeline().addLast(rpcResponseHandler);
+                // 心跳检测 3秒发一次心跳
+                ch.pipeline().addLast(new IdleStateHandler(0,3,0, TimeUnit.SECONDS));
+
             }
         });
         try {
