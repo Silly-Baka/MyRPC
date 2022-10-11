@@ -1,5 +1,7 @@
 package myRPC.registry;
 
+import myRPC.extension.SPI;
+
 import javax.annotation.Nullable;
 import java.net.InetSocketAddress;
 
@@ -10,6 +12,7 @@ import java.net.InetSocketAddress;
  * @Author SillyBaka
  * Description：远程注册表、注册中心（用于注册服务提供者）
  **/
+@SPI
 public interface ServiceRegistry {
     /**
      * 注册服务

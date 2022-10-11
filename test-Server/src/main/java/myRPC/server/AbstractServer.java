@@ -18,6 +18,7 @@ import java.util.Set;
  * Description：服务端抽象类，实现了自动注册方法，启动方法由其子类实现
  **/
 public abstract class AbstractServer {
+
     protected ServiceProvider serviceProvider;
     protected ServiceRegistry serviceRegistry;
     /**

@@ -9,14 +9,20 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.timeout.IdleStateHandler;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import myRPC.config.RpcConfig;
+import myRPC.extension.ExtensionLoader;
 import myRPC.handler.RpcRequestHandler;
 import myRPC.protocol.MessageCodec;
+import myRPC.registry.ServiceProvider;
+import myRPC.registry.ServiceRegistry;
 import myRPC.registry.impl.DefaultServiceProvider;
 import myRPC.registry.impl.NacosServiceRegistry;
 
 import java.net.InetSocketAddress;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Date: 2022/7/7
@@ -34,8 +40,13 @@ public class RpcServer extends AbstractServer{
     public RpcServer(String host,Integer port){
         this.host = host;
         this.port = port;
-        serviceProvider = new DefaultServiceProvider();
-        serviceRegistry = new NacosServiceRegistry();
+//        serviceProvider = new DefaultServiceProvider();
+        //todo 根据SPI配置来获取服务提供者的实现类对象
+        serviceProvider = ExtensionLoader.getExtensionLoader(ServiceProvider.class).getExtension(RpcConfig.getServiceProviderName());
+
+//        serviceRegistry = new NacosServiceRegistry();
+        //todo 根据SPI配置来获取服务注册表的实现类对象
+        serviceRegistry = ExtensionLoader.getExtensionLoader(ServiceRegistry.class).getExtension(RpcConfig.getServiceRegistryName());
         scanServices(host,port);
     }
     @Override
@@ -54,6 +65,8 @@ public class RpcServer extends AbstractServer{
                             ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(1024,12,4,0,0));
                             ch.pipeline().addLast(new LoggingHandler());
                             ch.pipeline().addLast(messageCodec);
+                            // 5秒确认一次心跳信息
+                            ch.pipeline().addLast(new IdleStateHandler(5,0,0, TimeUnit.SECONDS));
                             ch.pipeline().addLast(new RpcRequestHandler(serviceProvider));
                         }
                     })

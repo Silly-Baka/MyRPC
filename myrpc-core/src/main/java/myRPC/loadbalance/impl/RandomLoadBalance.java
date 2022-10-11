@@ -1,6 +1,7 @@
-package myRPC.loadbalance;
+package myRPC.loadbalance.impl;
 
 import com.alibaba.nacos.api.naming.pojo.Instance;
+import myRPC.loadbalance.AbstractLoadBalance;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;

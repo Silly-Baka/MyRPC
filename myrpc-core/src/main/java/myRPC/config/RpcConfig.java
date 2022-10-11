@@ -47,7 +47,31 @@ public class RpcConfig {
         String value = properties.getProperty("loadbalance.type");
         // 若是没有配置 则默认返回权重随机算法
         if(value == null){
-            return "RandomLoadBalance";
+            return "myRPC.loadbalance.impl.RandomLoadBalance";
+        }else {
+            return value;
+        }
+    }
+
+    /**
+     * 从配置文件中获取服务提供者的实现类别名
+     */
+    public static String getServiceProviderName(){
+        String value = properties.getProperty("serviceProvider.impl");
+        if(value == null){
+            return "default";
+        }else {
+            return value;
+        }
+    }
+
+    /**
+     * 从配置文件中获取服务注册表的实现类别名
+     */
+    public static String getServiceRegistryName(){
+        String value = properties.getProperty("serviceRegistry.impl");
+        if(value == null){
+            return "nacos";
         }else {
             return value;
         }

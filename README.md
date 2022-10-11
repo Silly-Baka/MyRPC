@@ -136,13 +136,13 @@ public class testRpcClient {
 
 serilizer.type  ———— 用于配置序列化方法（Java、Json、Kryo 三种值）
 
-oadbalance.type ———— 用于配置负载均衡算法 （只有权重随机算法：myRPC.loadbalance.RandomLoadBalance ，日后会增加映射，减少配置长度）
+oadbalance.type ———— 用于配置负载均衡算法 （只有权重随机算法：myRPC.loadbalance.impl.RandomLoadBalance ，日后会增加映射，减少配置长度）
 
 例子：
 
 ```properties
 serializer.type=Kryo
-loadbalance.type=myRPC.loadbalance.RandomLoadBalance
+loadbalance.type=myRPC.loadbalance.impl.RandomLoadBalance
 ```
 
 # 有待改正和增加的地方

@@ -5,6 +5,7 @@ import com.alibaba.nacos.api.naming.NamingFactory;
 import com.alibaba.nacos.api.naming.NamingService;
 import com.alibaba.nacos.api.naming.pojo.Instance;
 import myRPC.config.RpcConfig;
+import myRPC.extension.ExtensionLoader;
 import myRPC.loadbalance.LoadBalance;
 import myRPC.registry.ServiceProvider;
 import myRPC.registry.ServiceRegistry;
@@ -12,6 +13,7 @@ import myRPC.registry.ServiceRegistry;
 import java.lang.reflect.InvocationTargetException;
 import java.net.InetSocketAddress;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -38,13 +40,17 @@ public class NacosServiceRegistry implements ServiceRegistry {
     static {
         try {
             NAMING_SERVICE = NamingFactory.createNamingService("localhost:8848");
-            // 从配置文件中获取负载均衡策略
+            // 从配置文件中获取负载均衡策略的短词
             String loadBalanceType = RpcConfig.getLoadBalanceType();
-            // 通过反射创造负载均衡器
-            LOAD_BALANCER = (LoadBalance) Class.forName(loadBalanceType).getConstructor().newInstance();
+//            // 通过反射创造负载均衡器
+//            LOAD_BALANCER = (LoadBalance) Class.forName(loadBalanceType).getConstructor().newInstance();
+
+            //todo 根据SPI机制获取指定实现类
+            LOAD_BALANCER = ExtensionLoader.getExtensionLoader(LoadBalance.class).getExtension(loadBalanceType);
+
 ////             保证线程安全
 //            SERVICE_MAP = new ConcurrentHashMap<>();
-        } catch (NacosException | ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+        } catch (NacosException e) {
             throw new RuntimeException("nacos注册中心初始化时出现异常:"+e);
         }
     }
