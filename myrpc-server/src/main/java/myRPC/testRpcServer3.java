@@ -10,9 +10,9 @@ import myRPC.server.RpcServer;
  * Description：
  **/
 @AutoScanService(basePackage = "myRPC.service")
-public class testRpcServer {
+public class testRpcServer3 {
     public static void main(String[] args) {
-        RpcServer rpcServer = new RpcServer("localhost",8080);
+        RpcServer rpcServer = new RpcServer("localhost",8082);
         rpcServer.start();
     }
 }

@@ -7,6 +7,7 @@ import com.alibaba.nacos.api.naming.pojo.Instance;
 import myRPC.config.RpcConfig;
 import myRPC.extension.ExtensionLoader;
 import myRPC.loadbalance.LoadBalance;
+import myRPC.protocol.RpcRequestMessage;
 import myRPC.registry.ServiceProvider;
 import myRPC.registry.ServiceRegistry;
 
@@ -39,7 +40,7 @@ public class NacosServiceRegistry implements ServiceRegistry {
 //    private static final Map<String,String> SERVICE_MAP;
     static {
         try {
-            NAMING_SERVICE = NamingFactory.createNamingService("localhost:8848");
+            NAMING_SERVICE = NamingFactory.createNamingService(RpcConfig.getNacosServerList());
             // 从配置文件中获取负载均衡策略的短词
             String loadBalanceType = RpcConfig.getLoadBalanceType();
 //            // 通过反射创造负载均衡器
@@ -70,15 +71,15 @@ public class NacosServiceRegistry implements ServiceRegistry {
         }
     }
     @Override
-    public InetSocketAddress getServiceAddress(String serviceName) {
+    public InetSocketAddress getServiceAddress(String serviceName, RpcRequestMessage rpcRequest) {
         try {
 //            // 如果有别名
 //            if(SERVICE_MAP.containsKey(serviceName)){
 //                serviceName = SERVICE_MAP.get(serviceName);
 //            }
-            List<Instance> instances = NAMING_SERVICE.getAllInstances(serviceName);
+            List<Instance> serviceProviders = NAMING_SERVICE.getAllInstances(serviceName);
             // 负载均衡 选择一个合适的服务提供者
-            Instance instance = LOAD_BALANCER.selectServiceInstance(instances);
+            Instance instance = LOAD_BALANCER.selectServiceInstance(serviceProviders,rpcRequest);
             if(instance == null){
                 throw new RuntimeException("nacos中不存在该服务实例");
             }

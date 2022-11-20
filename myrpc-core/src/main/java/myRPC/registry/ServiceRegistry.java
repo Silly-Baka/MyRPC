@@ -1,6 +1,7 @@
 package myRPC.registry;
 
 import myRPC.extension.SPI;
+import myRPC.protocol.RpcRequestMessage;
 
 import javax.annotation.Nullable;
 import java.net.InetSocketAddress;
@@ -27,5 +28,5 @@ public interface ServiceRegistry {
      * @param serviceName 服务名称
      * @return 服务地址
      */
-    InetSocketAddress getServiceAddress(String serviceName);
+    InetSocketAddress getServiceAddress(String serviceName, RpcRequestMessage rpcRequest);
 }

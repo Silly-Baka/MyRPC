@@ -57,13 +57,14 @@ public class RpcClientProxyFactory implements InvocationHandler {
             String name = clazz.getAnnotation(Service.class).name();
             // 如果有别名
             if(!"".equals(name)){
-                address = serviceRegistry.getServiceAddress(name);
+                address = serviceRegistry.getServiceAddress(name,rpcRequestMessage);
             }else {
-                address = serviceRegistry.getServiceAddress(clazz.getCanonicalName());
+                // 否则就选择全类名
+                address = serviceRegistry.getServiceAddress(clazz.getCanonicalName(),rpcRequestMessage);
             }
         // 没有使用注解注册则无别名，直接使用全类名
         }else {
-            address = serviceRegistry.getServiceAddress(clazz.getCanonicalName());
+            address = serviceRegistry.getServiceAddress(clazz.getCanonicalName(),rpcRequestMessage);
         }
         log.debug("服务端地址为:{}",address);
         // 获取连接对象

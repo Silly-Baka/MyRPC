@@ -47,7 +47,7 @@ public class RpcConfig {
         String value = properties.getProperty("loadbalance.type");
         // 若是没有配置 则默认返回权重随机算法
         if(value == null){
-            return "myRPC.loadbalance.impl.RandomLoadBalance";
+            return "random";
         }else {
             return value;
         }
@@ -75,5 +75,14 @@ public class RpcConfig {
         }else {
             return value;
         }
+    }
+
+    public static String getNacosServerList(){
+        String value = properties.getProperty("nacos.serverList");
+        if(value == null){
+            // 默认监听本机的nacos
+            return "localhost:8848";
+        }
+        return value;
     }
 }

@@ -107,11 +107,11 @@ public class ExtensionLoader<T> {
      */
     private T createExtension(String name){
         if(StringUtils.isBlank(name)){
-            throw new IllegalArgumentException("传入的全类名不能为空");
+            throw new IllegalArgumentException("传入的SPI名不能为空");
         }
         Class<?> clazz = getCachedClasses().get(name);
         if(clazz == null){
-            throw new IllegalArgumentException("不存在该全类名的实现类");
+            throw new IllegalArgumentException("不存在该SPI名的实现类");
         }
         // 先看看缓存中有没有
         T instance = (T) EXTENSION_INSTANCES.get(clazz);

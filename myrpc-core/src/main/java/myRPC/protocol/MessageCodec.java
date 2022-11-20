@@ -33,7 +33,7 @@ public class MessageCodec extends MessageToMessageCodec<ByteBuf,Message> {
      * 编码
      */
     @Override
-    protected void encode(ChannelHandlerContext ctx, Message msg, List<Object> out){
+    public void encode(ChannelHandlerContext ctx, Message msg, List<Object> out){
         ByteBuf byteBuf = ctx.alloc().buffer();
         // 魔数 写死 不用写在配置文件中
         byteBuf.writeBytes(MAGIC_NUM);

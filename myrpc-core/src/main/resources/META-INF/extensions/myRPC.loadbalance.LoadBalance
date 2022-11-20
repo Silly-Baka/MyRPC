@@ -1,1 +1,2 @@
-random=myRPC.loadbalance.impl.RandomLoadBalance
+random=myRPC.loadbalance.loadbalancer.RandomLoadBalance
+consistentHash=myRPC.loadbalance.loadbalancer.ConsistentHashLoadBalance

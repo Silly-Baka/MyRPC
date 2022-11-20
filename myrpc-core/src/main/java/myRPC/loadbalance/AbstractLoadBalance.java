@@ -1,7 +1,7 @@
 package myRPC.loadbalance;
 
 import com.alibaba.nacos.api.naming.pojo.Instance;
-import myRPC.loadbalance.LoadBalance;
+import myRPC.protocol.RpcRequestMessage;
 
 import java.util.List;
 
@@ -15,20 +15,20 @@ import java.util.List;
  **/
 public abstract class AbstractLoadBalance implements LoadBalance {
     @Override
-    public Instance selectServiceInstance(List<Instance> instances) {
-        if(instances == null || instances.size() == 0){
+    public Instance selectServiceInstance(List<Instance> serviceProviders,RpcRequestMessage rpcRequest) {
+        if(serviceProviders == null || serviceProviders.size() == 0){
             return null;
         }
-        if(instances.size() == 1){
-            return instances.get(0);
+        if(serviceProviders.size() == 1){
+            return serviceProviders.get(0);
         }
-        return doSelect(instances);
+        return doSelect(serviceProviders,rpcRequest);
     }
 
     /**
      * 采用负载均衡算法从服务列表中选择一个服务实例 （包装实际算法逻辑）
-     * @param instances 服务列表
+     * @param rpcRequest 服务列表
      * @return 选出的服务实例
      */
-    protected abstract Instance doSelect(List<Instance> instances);
+    protected abstract Instance doSelect(List<Instance> serviceProviders, RpcRequestMessage rpcRequest);
 }

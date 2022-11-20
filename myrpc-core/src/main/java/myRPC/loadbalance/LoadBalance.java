@@ -2,6 +2,7 @@ package myRPC.loadbalance;
 
 import com.alibaba.nacos.api.naming.pojo.Instance;
 import myRPC.extension.SPI;
+import myRPC.protocol.RpcRequestMessage;
 
 import java.util.List;
 
@@ -20,5 +21,5 @@ public interface LoadBalance {
      * @param instances 服务列表
      * @return 选出的服务实例
      */
-    Instance selectServiceInstance(List<Instance> instances);
+    Instance selectServiceInstance(List<Instance> instances, RpcRequestMessage rpcRequest);
 }

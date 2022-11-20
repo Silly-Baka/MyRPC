@@ -1,8 +1,8 @@
-package myRPC.protocol;
-
 import io.netty.channel.embedded.EmbeddedChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.logging.LoggingHandler;
+import myRPC.protocol.MessageCodec;
+import myRPC.protocol.RpcRequestMessage;
 import myRPC.utils.SequenceIdGenerator;
 
 import java.util.ArrayList;
