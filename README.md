@@ -1,6 +1,6 @@
 # 架构
 
-> 这幅架构图参考的是JavaGuide哥的手写rpc框架，我这里服务端还没有实现线程池
+> 这幅架构图参考的是JavaGuide哥的手写rpc框架
 
 ![img](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jbi1ndW96aXlhbmcuZ2l0aHViLmlvL015LVJQQy1GcmFtZXdvcmsvaW1nL1JQQyVFNiVBMSU4NiVFNiU5RSVCNiVFNiU4MCU5RCVFOCVCNyVBRi5qcGVn?x-oss-process=image/format,png)
 
