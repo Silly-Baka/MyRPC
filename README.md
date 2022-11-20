@@ -14,7 +14,7 @@
 - 使用Nacos作为注册中心，为服务提供者注册服务同时维护服务提供者的信息（ 由于只是简单的作为注册中心，所以替换成Zookeeper也行，并且无需过多改动）
 - 实现了自定义的RPC通信协议和自定义的编解码器
 - 实现了三种序列化算法：JDK原生，Json 、Kryo等 （默认使用Kryo，可以通过配置文件RpcConfig.properties修改）
-- 实现了一种负载均衡算法：权重随机算法（参考Dubbo的RandomLoadBalance的算法逻辑进行实现）
+- 实现了两种负载均衡算法：权重随机算法（参考Dubbo的RandomLoadBalance的算法逻辑进行实现）、一致性哈希算法（参考Dubbo的ConsistenHashLoadBanlance）
 - 实现了利用注解进行自动注册服务的功能，可以使用@Service注解来标注服务，然后在启动类中使用@AutoScanService进行自动扫描并注册
 - 接口抽象良好，模块耦合度低，序列化器、负载均衡算法等方式可使用配置文件进行配置
 
