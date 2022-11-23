@@ -26,19 +26,24 @@ public class RpcResponseHandler extends SimpleChannelInboundHandler<RpcResponseM
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, RpcResponseMessage msg) throws Exception {
-        // 由当前 nio线程 接收调用方法后的响应信息
+        // 由当前nio线程 接收调用方法后的响应信息
+
         // 通过序列号找到用于存放结果的 Promise
         Integer sequenceId = msg.getSequenceId();
         Promise<Object> promise = PROMISES.get(sequenceId);
         // 通过Promise进行线程通信 传回给发起调用的线程
         if(promise != null){
             Object returnValue = msg.getReturnValue();
-            Integer status = msg.getStatus();
-            // 如果调用成功 就保存返回值
-            if(status.equals(RpcStatus.SUCCESS.getCode())){
+            RpcStatus status = msg.getStatus();
+            // 判断是成功、重试还是失败
+            if(status == RpcStatus.SUCCESS){
                 promise.setSuccess(returnValue);
-            }else {
-                promise.setFailure(msg.getExceptionValue());
+
+            }else if (status == RpcStatus.RETRY){
+                // 返回重试信息
+                promise.setSuccess(returnValue);
+            }else if (status == RpcStatus.FAIL){
+                promise.setFailure(null);
             }
         }
     }

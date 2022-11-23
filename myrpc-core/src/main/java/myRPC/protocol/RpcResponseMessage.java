@@ -1,6 +1,7 @@
 package myRPC.protocol;
 
 import lombok.Data;
+import org.ietf.jgss.Oid;
 
 import java.io.Serializable;
 
@@ -14,9 +15,9 @@ import java.io.Serializable;
 @Data
 public class RpcResponseMessage extends Message implements Serializable {
     /**
-     * 响应码
+     * 响应状态
      */
-    private Integer status;
+    private RpcStatus status;
     /**
      * 响应消息
      */
@@ -25,27 +26,10 @@ public class RpcResponseMessage extends Message implements Serializable {
      * 响应数据
      */
     private Object returnValue;
-    /**
-     * 异常信息
-     */
-    private Exception exceptionValue;
-
-    public static <T> RpcResponseMessage success(T data,Integer sequenceId){
-        RpcResponseMessage rpcResponseMessage = new RpcResponseMessage();
-        rpcResponseMessage.setReturnValue(data);
-        rpcResponseMessage.setStatus(RpcStatus.SUCCESS.getCode());
-        rpcResponseMessage.setSequenceId(sequenceId);
-
-        return rpcResponseMessage;
-    }
-    public static RpcResponseMessage fail(String message,Exception e){
-        RpcResponseMessage rpcResponseMessage = new RpcResponseMessage();
-        rpcResponseMessage.setMessage(message);
-        rpcResponseMessage.setStatus(RpcStatus.FAIL.getCode());
-        rpcResponseMessage.setExceptionValue(e);
-
-        return rpcResponseMessage;
-    }
+//    /**
+//     * 异常信息
+//     */
+//    private Exception exceptionValue;
 
     @Override
     public int getMessageType() {

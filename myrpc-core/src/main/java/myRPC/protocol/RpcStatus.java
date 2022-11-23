@@ -15,13 +15,17 @@ public enum RpcStatus {
     /**
      * 失败响应码
      */
-    FAIL("",401);
+    FAIL("",401),
+    /**
+     * 重试状态码
+     */
+    RETRY("重试",300);
 
     private String message;
 
-    private Integer code;
+    private int code;
 
-    RpcStatus(String message, Integer code) {
+    RpcStatus(String message, int code) {
         this.message = message;
         this.code = code;
     }
@@ -34,11 +38,11 @@ public enum RpcStatus {
         this.message = message;
     }
 
-    public Integer getCode() {
+    public int getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(int code) {
         this.code = code;
     }
 }

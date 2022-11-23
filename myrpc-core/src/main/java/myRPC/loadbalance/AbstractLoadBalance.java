@@ -15,7 +15,7 @@ import java.util.List;
  **/
 public abstract class AbstractLoadBalance implements LoadBalance {
     @Override
-    public Instance selectServiceInstance(List<Instance> serviceProviders,RpcRequestMessage rpcRequest) {
+    public Instance selectServiceInstance(List<Instance> serviceProviders, RpcRequestMessage rpcRequest) {
         if(serviceProviders == null || serviceProviders.size() == 0){
             return null;
         }

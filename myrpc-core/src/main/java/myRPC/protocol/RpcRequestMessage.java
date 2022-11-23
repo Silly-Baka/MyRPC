@@ -1,9 +1,6 @@
 package myRPC.protocol;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -22,7 +19,7 @@ public class RpcRequestMessage extends Message implements Serializable {
     /**
      * 接口名字
      */
-    private String interfaceName;
+    private String serviceName;
     /**
      * 调用的方法名
      */
@@ -35,10 +32,25 @@ public class RpcRequestMessage extends Message implements Serializable {
      * 参数列表
      */
     private Object[] parameters;
+    /**
+     * 是否允许重试 默认不允许
+     * 只有读接口允许重试
+     * 写接口不能允许重试
+     */
+    protected boolean isRetry = true;
+    /**
+     * 超时时间 默认1000ms
+     */
+    protected long timeOut = 1000;
+    /**
+     * 重试次数 默认3次
+     */
+    protected int ttl = 3;
 
 
     @Override
     public int getMessageType() {
         return RPC_REQUEST_MESSAGE;
     }
+
 }

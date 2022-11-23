@@ -1,7 +1,6 @@
 package myRPC.loadbalance.loadbalancer;
 
 import com.alibaba.nacos.api.naming.pojo.Instance;
-import myRPC.annotation.Service;
 import myRPC.loadbalance.AbstractLoadBalance;
 import myRPC.protocol.RpcRequestMessage;
 
@@ -32,7 +31,7 @@ public class ConsistentHashLoadBalance extends AbstractLoadBalance {
         // 用于确认服务提供者是否已扩容
         int identityHashCode = System.identityHashCode(serviceProviders);
 
-        String serviceName = rpcRequest.getInterfaceName();
+        String serviceName = rpcRequest.getServiceName();
 
         ConsistentHashSelector consistentHashSelector = selectors.get(serviceName);
 

@@ -17,11 +17,11 @@ public abstract class Message {
     /**
      * 序列号
      */
-    private Integer sequenceId;
+    protected int sequenceId;
     /**
      * 指令类型
      */
-    private Integer messageType;
+    protected int messageType;
 
     public static final int RPC_REQUEST_MESSAGE = 0;
     public static final int RPC_RESPONSE_MESSAGE = 1;
@@ -29,7 +29,7 @@ public abstract class Message {
     private static final Map<Integer,Class<?>> MESSAGE_CLASSES = new HashMap<>();
 
     static {
-        MESSAGE_CLASSES.put(RPC_REQUEST_MESSAGE,RpcRequestMessage.class);
+        MESSAGE_CLASSES.put(RPC_REQUEST_MESSAGE, RpcRequestMessage.class);
         MESSAGE_CLASSES.put(RPC_RESPONSE_MESSAGE,RpcResponseMessage.class);
     }
 
